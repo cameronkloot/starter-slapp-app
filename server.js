@@ -15,6 +15,36 @@ var slapp = Slapp({
   context: Context()
 })
 
+const Nag = require('../slapp-nag')
+
+
+slapp.route('askNameAndNag', (msg, state) => {
+  msg.say("Sounds good, I'll remind you later!")
+  // ask this question, then remind them once, in an hour
+  nag.ask({
+    msg,
+    state, // optional, state will be passed through
+    ask: 'What is your name', // this is a full slack msg object
+    route: 'routeName',
+    remind: { hours: 0.01 }
+  })
+  // don't ask right now, but remind them every day starting tomorrow
+  nag({ msg,
+    ask: 'What is your name',
+    route: 'routeName',
+    remind: { days: 1 },
+    repeat: true
+  })
+  // ask, then remind with increasing frequency up to a given deadline
+  nag.ask({ msg,
+    ask: 'What is your name',
+    route: 'routeName',
+    remind: { days: 1 },
+    deadline: '10/15/2016' // not yet implemented
+  })
+})
+
+
 
 var HELP_TEXT = `
 I will respond to the following messages:
