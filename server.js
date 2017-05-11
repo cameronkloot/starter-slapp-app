@@ -4,6 +4,7 @@ const express = require('express')
 const Slapp = require('slapp')
 const ConvoStore = require('slapp-convo-beepboop')
 const Context = require('slapp-context-beepboop')
+const Nag = require('slapp-nag')
 
 // use `PORT` env var on Beep Boop - default to 3000 locally
 var port = process.env.PORT || 3000
@@ -15,8 +16,7 @@ var slapp = Slapp({
   context: Context()
 })
 
-const Nag = require('../slapp-nag')
-
+const nag = new Nag(slapp)
 
 slapp.route('askNameAndNag', (msg, state) => {
   msg.say("Sounds good, I'll remind you later!")
